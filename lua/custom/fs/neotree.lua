@@ -5,6 +5,17 @@ local config = {
   sort_case_insensitive = true,
   window = {
     mappings = {
+      ["<cr>"] = function(state)
+        local node = state.tree:get_node()
+        if node and node.type == "file" then
+          local cmd = require("neo-tree.sources.filesystem.commands")
+          cmd.open(state)
+        elseif node and node.type == "directory" then
+          local cmd = require("neo-tree.sources.filesystem.commands")
+          cmd.toggle_node(state)
+        end
+        print(string.format("%s  %s", node:get_id(), node.path))
+      end,
       ["<space>"] = "noop",
       ["<2-LeftMouse>"] = "",
       ["s"] = "open_split",
@@ -39,13 +50,14 @@ local config = {
       mappings = {
         ["<c-f>"] = function(state)
           local node = state.tree:get_node()
-          print(node.path)
-          local live_grep = require("telescope.builtin").live_grep
-          live_grep({
-            search_dirs = {
-              node.path
-            }
-          })
+          if node and (node.type == "directory" or node.type == "file") then
+            local live_grep = require("telescope.builtin").live_grep
+            live_grep({
+              search_dirs = {
+                node:get_id()
+              }
+            })
+          end
         end,
       },
       fuzzy_finder_mappings = {

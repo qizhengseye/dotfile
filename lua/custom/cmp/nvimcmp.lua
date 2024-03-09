@@ -5,7 +5,6 @@ local icon = require("common.icon")
 local window = cmp.config.window.bordered()
 local types = require("cmp.types")
 window.max_height = 10
-
 cmp.setup({
     snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -28,10 +27,10 @@ cmp.setup({
       disallow_prefix_unmatching = false,
     },
     mapping = cmp.mapping.preset.insert({
-        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<m-k>"] = cmp.mapping(cmp.mapping.select_prev_item(), { "i", "c" }),
-        ["<m-j>"] = cmp.mapping(cmp.mapping.select_next_item(), { "i", "c" }),
+        ["<C-p>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-n>"] = cmp.mapping.scroll_docs(4),
+        ["<m-k>"] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }), { "i", "c" }),
+        ["<m-j>"] = cmp.mapping(cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }), { "i", "c" }),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort({
             i = cmp.mapping.abort(),
@@ -65,8 +64,6 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
-        ["<C-p>"] = nil,
-        ["<C-n"] = nil,
     }),
     sorting = {
         comparators = {
