@@ -3,17 +3,11 @@ local util = require("utils")
 vim.g.mapleader = " "
 vim.keymap.set("n", "<Space>", "", opts)
 -- window navigation
-vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
-vim.keymap.set("n", "<C-j>", "<C-w>j", opts)
-vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
-vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
-vim.keymap.set("n", "<C-b>", "<c-6>", opts)
-
--- resize window
-vim.keymap.set("n", "<m-1>", "<C-w><lt>")
-vim.keymap.set("n", "<m-2>", "<C-w>>")
-vim.keymap.set("n", "<m-3>", "<C-w>-")
-vim.keymap.set("n", "<m-4>", "<C-w>+")
+vim.keymap.set("n", "<Tab>", ":wincmd w<CR>", opts)
+vim.keymap.set("n", "<S-Tab>", ":wincmd W<CR>", opts)
+vim.keymap.set("n", "<m-w>", function()
+  util.window_mode():activate()
+end, opts)
 
 vim.keymap.set("n", "<Esc>", function ()
     util.close_floats()

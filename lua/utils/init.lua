@@ -26,5 +26,53 @@ Util.lsp_kind_compare = function(kind)
   end
 end
 
+local esc = 27
+local win_cmd_map = {
+  ["x"] = function() vim.api.nvim_command("wincmd x") end,
+  ["L"] = function() vim.api.nvim_command("wincmd L") end,
+  ["K"] = function() vim.api.nvim_command("wincmd K") end,
+  ["J"] = function() vim.api.nvim_command("wincmd J") end,
+  ["H"] = function() vim.api.nvim_command("wincmd H") end,
+  ["l"] = function() vim.api.nvim_command("wincmd l") end,
+  ["k"] = function() vim.api.nvim_command("wincmd k") end,
+  ["j"] = function() vim.api.nvim_command("wincmd j") end,
+  ["h"] = function() vim.api.nvim_command("wincmd h") end,
+  ["="] = function() vim.api.nvim_command("res +4") end,
+  ["-"] = function() vim.api.nvim_command("res -4") end,
+  ["+"] = function() vim.api.nvim_command("vert res +4") end,
+  ["_"] = function() vim.api.nvim_command("vert res -4") end,
+}
+
+local layer = nil
+Util.window_mode = function()
+  if layer then
+    return layer
+  end
+  print("here")
+  local param = {
+    layer = {},
+    enter = {}
+  }
+
+  param.exit = {
+    {"n", '<Esc>'}
+  }
+  
+  param.config = {
+    on_enter = function()
+      print("Window mode start")
+      vim.bo.modifiable = false
+    end,
+    on_exit  = function() 
+      print("Window mode exit") 
+    end,
+  }
+
+  for key, _fn in pairs(win_cmd_map) do
+    table.insert(param.layer, {'n', key, _fn})
+  end
+  layer = require("utils.klayer")(param)
+  return layer
+end
 
 return Util
