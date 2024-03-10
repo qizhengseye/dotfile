@@ -26,7 +26,6 @@ Util.lsp_kind_compare = function(kind)
   end
 end
 
-local esc = 27
 local win_cmd_map = {
   ["x"] = function() vim.api.nvim_command("wincmd x") end,
   ["L"] = function() vim.api.nvim_command("wincmd L") end,
@@ -43,7 +42,14 @@ local win_cmd_map = {
   ["_"] = function() vim.api.nvim_command("vert res -4") end,
 }
 
+local is_in_win_mode = false
+
+Util.is_win_mode = function()
+  return is_in_win_mode
+end
+
 local layer = nil
+
 Util.window_mode = function()
   if layer then
     return layer
@@ -57,14 +63,16 @@ Util.window_mode = function()
   param.exit = {
     {"n", '<Esc>'}
   }
-  
+
   param.config = {
     on_enter = function()
       print("Window mode start")
+      is_in_win_mode = true
       vim.bo.modifiable = false
     end,
-    on_exit  = function() 
-      print("Window mode exit") 
+    on_exit  = function()
+      is_in_win_mode = false
+      print("Window mode exit")
     end,
   }
 
@@ -74,5 +82,7 @@ Util.window_mode = function()
   layer = require("utils.klayer")(param)
   return layer
 end
+
+
 
 return Util

@@ -11,11 +11,19 @@ vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
 vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
 vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 
-local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 local nDiag, pDiag = ts_repeat_move.make_repeatable_move_pair(
     vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
 vim.keymap.set('n', '[d', pDiag)
 vim.keymap.set('n', ']d', nDiag)
+
+local motion = require("utils.motion")
+local blockf, blockb = ts_repeat_move.make_repeatable_move_pair(
+  motion.move_block_forward, motion.move_block_backward
+)
+
+vim.keymap.set('n', ']b', blockf)
+vim.keymap.set('n', '[b', blockb)
+--vim.keymap.set('n', ']{', nMove)
 
 local M = {}
 
@@ -59,6 +67,7 @@ _obj.move = {
     ["[a"] = "@parameter.inner",
     ["[f"] = "@function.outer",
     ["[c"] = "@class.outer",
+    ["[="] = "@assignment.lhs",
   },
   goto_previous_end = {
     ["[F"] = "@function.outer",
@@ -67,12 +76,6 @@ _obj.move = {
   -- Below will go to either the start or the end, whichever is closer.
   -- Use if you want more granular movements
   -- Make it even more gradual by adding multiple queries and regex.
---  goto_next = {
---    ["]d"] = "@conditional.outer",
---  },
---  goto_previous = {
---    ["[d"] = "@conditional.outer",
---  },
 }
 
 M.textobjects = _obj
