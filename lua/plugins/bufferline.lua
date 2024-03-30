@@ -16,14 +16,13 @@ return {
                 diagnostics = "nvim_lsp",
                 buffer_close_icon = "",
                 show_buffer_close_icon = false,
-                separator_style = "slant",
                 always_show_bufferline = true,
                 hover = { enable = false },
                 offsets = {
                     {
                         filetype = "neo-tree",
                         text = "File Explorer",
---                        highlight = "PmenuSel",
+                        highlight = "Directory",
                         text_align = "left",
 --                       separator = '|',
                         padding = 0,

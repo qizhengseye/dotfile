@@ -2,6 +2,7 @@ local lsps = {
     "lua_ls",
     "clangd",
     "rust_analyzer",
+    "pyright",
 }
 return {
     {
@@ -26,7 +27,10 @@ return {
     {
         "neovim/nvim-lspconfig",
         evnent = { "BufReadPost", "BufNewFile" },
-        dependencies = { "williamboman/mason-lspconfig.nvim" },
+        dependencies = {
+          "williamboman/mason-lspconfig.nvim",
+          "rmagatti/goto-preview",
+        },
         opts = {
             languages = lsps,
         },
@@ -42,4 +46,15 @@ return {
             end
         end,
     },
+    {
+      "ray-x/lsp_signature.nvim",
+      lazy = true
+    },
+    {
+      'rmagatti/goto-preview',
+      lazy = true,
+      config = function ()
+        require("goto-preview").setup({})
+      end
+    }
 }

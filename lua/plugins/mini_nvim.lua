@@ -1,20 +1,29 @@
 return {
-  "echasnovski/mini.move",
-  version = false,
-  event = "BufEnter",
-  config = function()
-    require("mini.move").setup({
-      mappings = {
-        left = "<C-S-H>",
-        right = "<C-S-L>",
-        down = "<C-S-J>",
-        up = "<C-S-K>",
+  {
+    "echasnovski/mini.move",
+    version = false,
+    event = "BufEnter",
+    config = function()
+      require("mini.move").setup({
+        mappings = {
+          left = "<m-h>",
+          right = "<m-l>",
+          down = "<m-j>",
+          up = "<m-k>",
 
-        line_left = "<C-S-H>",
-        line_right = "<C-S-L>",
-        line_down = "<C-S-J>",
-        line_up = "<C-S-K>",
-      },
-    })
-  end,
+          line_left = "<m-h>",
+          line_right = "<m-l>",
+          line_down = "<m-j>",
+          line_up = "<m-k>",
+        },
+      })
+    end,
+  },
+  {
+    'echasnovski/mini.indentscope',
+    version = false,
+    config = function ()
+      require('mini.indentscope').setup()
+    end
+  },
 }

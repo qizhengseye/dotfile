@@ -11,19 +11,27 @@ vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
 vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
 vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 
+local opts = { noremap = true, silent = true}
 local nDiag, pDiag = ts_repeat_move.make_repeatable_move_pair(
     vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
-vim.keymap.set('n', '[d', pDiag)
-vim.keymap.set('n', ']d', nDiag)
+
+vim.keymap.set('n', '[d', pDiag, opts)
+vim.keymap.set('n', ']d', nDiag, opts)
 
 local motion = require("utils.motion")
 local blockf, blockb = ts_repeat_move.make_repeatable_move_pair(
   motion.move_block_forward, motion.move_block_backward
 )
 
-vim.keymap.set('n', ']b', blockf)
-vim.keymap.set('n', '[b', blockb)
---vim.keymap.set('n', ']{', nMove)
+vim.keymap.set('n', ']b', blockf, opts)
+vim.keymap.set('n', '[b', blockb, opts)
+
+local nodef, nodeb = ts_repeat_move.make_repeatable_move_pair(
+  motion.move_node_forward, motion.move_node_backward
+)
+
+vim.keymap.set('n', ']n', nodef, opts)
+vim.keymap.set('n', '[n', nodeb, opts)
 
 local M = {}
 
@@ -66,12 +74,12 @@ _obj.move = {
   goto_previous_start = {
     ["[a"] = "@parameter.inner",
     ["[f"] = "@function.outer",
-    ["[c"] = "@class.outer",
+    ["[m"] = "@class.outer",
     ["[="] = "@assignment.lhs",
   },
   goto_previous_end = {
     ["[F"] = "@function.outer",
-    ["[C"] = "@class.outer",
+    ["[c"] = "@class.outer",
   },
   -- Below will go to either the start or the end, whichever is closer.
   -- Use if you want more granular movements

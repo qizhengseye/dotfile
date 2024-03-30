@@ -1,10 +1,11 @@
+vim.cmd("let g:loaded_python3_provider = 0")
 -- temp files
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.undofile = false
 vim.opt.writebackup = false
 
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamed"
 vim.opt.completeopt = { "menuone", "noselect"}
 
 -- appearance 
@@ -36,3 +37,8 @@ vim.opt.listchars = "space:·"
 
 -- mappings
 vim.opt.timeoutlen = 3000
+
+-- c/cpp
+
+vim.opt.cindent = true
+vim.opt.cino = "g0"

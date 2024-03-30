@@ -20,10 +20,12 @@ vim.keymap.set("n", "<m-d>", ":bprevious<bar>bdelete #<CR>", opts)
 vim.keymap.set("n", "<m-q>", ":bprevious<CR>", opts)
 
 -- motion modify
+vim.keymap.set({"n", "v"}, "gj", "]", {remap = true})
+vim.keymap.set({"n", "v"}, "gk", "[", {remap = true})
 vim.keymap.set("i", "<C-l>", "<Esc>g_a", opts)
 vim.keymap.set("i", "<C-h>", "<Esc>^i", opts)
-vim.keymap.set({ "n", "o", "x" }, "<s-h>", "^", opts)
-vim.keymap.set({ "n", "o", "x" }, "<s-l>", "g_", opts)
+vim.keymap.set({ "n", "o", "x" }, "<C-h>", "^", opts)
+vim.keymap.set({ "n", "o", "x" }, "<C-l>", "g_", opts)
 
 -- save and quit
 vim.keymap.set("n", "<leader>q", ":q<CR>", opts)
@@ -40,4 +42,6 @@ vim.keymap.set({"n", "o", "x", "v"}, "<Bs>", [["_d]], opts)
 vim.keymap.set({"n", "v"}, "<C-d>", "6j", opts)
 vim.keymap.set({"n", "v"}, "<C-u>", "6k", opts)
 
--- test
+-- nevigation
+vim.keymap.set({"n", "v"}, "]m", "]c", opts)
+vim.keymap.set({"n", "v"}, "[m", "[c", opts)

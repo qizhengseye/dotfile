@@ -40,6 +40,9 @@ return {
             {
                 "hrsh7th/cmp-nvim-lua",
             },
+            {
+              "ray-x/lsp_signature.nvim",
+            }
         },
         event = "InsertEnter",
         config = function()

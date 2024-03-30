@@ -16,6 +16,15 @@ local function intellece_source_filter()
   return true
 end
 
+local function trigger_signature_help()
+  local context = require 'cmp.config.context'
+
+  if context.in_treesitter_capture("function.call") or
+    context.in_treesitter_capture("function.method.call") then
+    require('lsp_signature').toggle_float_win()
+  end
+end
+
 cmp.setup({
   snippet = {
     -- REQUIRED - you must specify a snippet engine
@@ -26,15 +35,16 @@ cmp.setup({
   experimental = {
     ghost_text = true,
   },
+  matching = {
+    disallow_fuzzy_matching = false,
+    disallow_prefix_unmatching = true
+  },
   window = {
     completion = window,
     documentation = window,
   },
   performance = {
     max_view_entries = 20,
-  },
-  matching = {
-    disallow_prefix_unmatching = false,
   },
   mapping = cmp.mapping.preset.insert({
     ["<C-p>"] = cmp.mapping.scroll_docs(-4),
@@ -82,13 +92,14 @@ cmp.setup({
     end, { "i", "s" }),
   }),
   sorting = {
+    priority_weight = 0.15,
     comparators = {
       cmp.config.compare.score,
       cmp.config.compare.recently_used,
       cmp.config.compare.exact,
       cmp.config.compare.offset,
+      cmp.config.compare.locality,
       cmp.config.compare.length,
-      cmp.config.compare.kind,
     },
   },
 
@@ -110,12 +121,6 @@ cmp.setup({
 
   sources = cmp.config.sources({
     {
-      name = "luasnip",
-      entry_filter = function(entry)
-        return intellece_source_filter()
-      end,
-    },     -- For luasnip users.
-    {
       name = "nvim_lsp",
       entry_filter = function(entry)
         local context = require 'cmp.config.context'
@@ -125,9 +130,14 @@ cmp.setup({
         if context.in_syntax_group("String") or context.in_treesitter_capture("string") then
           return cmp.lsp.CompletionItemKind.File == entry:get_kind()
         end
-        return cmp.lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+        return true
       end,
-    },
+    },{
+      name = "luasnip",
+      entry_filter = function(entry)
+        return intellece_source_filter()
+      end,
+    },     -- For luasnip users.
   }, 
   {
     { name = "buffer" },

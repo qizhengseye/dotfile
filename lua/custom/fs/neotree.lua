@@ -1,4 +1,22 @@
+local icon = require("common.icon")
 local config = {
+  default_component_configs = {
+    diagnostics = {
+
+      symbols = {
+        hint = icon.diagnostics.Hint,
+        info = icon.diagnostics.Info,
+        warn = icon.diagnostics.Warn,
+        error = icon.diagnostics.Error,
+      },
+      highlights = {
+        hint = "DiagnosticSignHint",
+        info = "DiagnosticSignInfo",
+        warn = "DiagnosticSignWarn",
+        error = "DiagnosticSignError",
+      },
+    },
+  },
   close_if_last_window = true,
   enable_normal_mode_for_inputs = true,
   enable_cursor_hijack = true,
@@ -14,7 +32,6 @@ local config = {
           local cmd = require("neo-tree.sources.filesystem.commands")
           cmd.toggle_node(state)
         end
-        print(string.format("%s  %s", node:get_id(), node.path))
       end,
       ["<space>"] = "noop",
       ["<2-LeftMouse>"] = "",
