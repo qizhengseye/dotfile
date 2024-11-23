@@ -7,12 +7,12 @@ return {
         "MunifTanjim/nui.nvim",
     },
     keys = {
-      {"<leader>e", ":Neotree reveal toggle left<cr>"}
+      {"<leader>e", ":Neotree reveal toggle left<cr>", desc="Open NeoTree"}
     },
     opts = {},
 
     config = function(_, _)
-        local cfg = require("custom.fs.neotree")
+        local cfg = require("editor.neotree")
         require("neo-tree").setup(cfg)
     end,
 }
