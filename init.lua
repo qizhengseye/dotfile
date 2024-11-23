@@ -1,7 +1,9 @@
-require("basic.options")
-require("basic.keymaps")
-require("basic.autocmd")
- 
+require("keymap")
+require("options")
+
+g_config = require("configs")
+g_icon = require("icon")
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -15,5 +17,4 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("common.signs")
 require("lazy").setup("plugins")
