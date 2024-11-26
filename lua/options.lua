@@ -4,6 +4,7 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.undofile = false
 vim.opt.writebackup = false
+vim.opt.laststatus = 3
 
 vim.opt.clipboard = "unnamedplus"
 vim.g.clipboard = {
