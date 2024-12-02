@@ -5,6 +5,6 @@ return {
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
-      require'lspconfig'.lua_ls.setup(require'lsp.server.lua_ls')
+      require'lsp.server.lua_ls'
     end
 }

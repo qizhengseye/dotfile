@@ -1,8 +1,8 @@
 require("keymap")
 require("options")
 
-g_config = require("configs")
-g_icon = require("icon")
+G_CONFIG = require("configs")
+G_ICON = require("icon")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then

@@ -2,7 +2,26 @@ local config = {
   close_if_last_window = true,
   enable_cursor_hijack = true,
   sort_case_insensitive = true,
-  popup_border_style = g_config.popup.style,
+  popup_border_style = G_CONFIG.popup.style,
+
+  event_handlers = {
+    {
+      event = "neo_tree_popup_input_ready",
+      handler = function()
+        -- enter input popup with normal mode by default.
+        vim.cmd("stopinsert")
+      end,
+    },
+    {
+      event = "neo_tree_popup_input_ready",
+      ---@param args { bufnr: integer, winid: integer }
+      handler = function(args)
+        -- map <esc> to enter normal mode (by default closes prompt)
+        -- don't forget `opts.buffer` to specify the buffer of the popup.
+        vim.keymap.set("i", "<esc>", vim.cmd.stopinsert, { noremap = true, buffer = args.bufnr })
+      end,
+    }
+  },
 
   default_component_configs = {
     name = {
@@ -11,10 +30,10 @@ local config = {
 
     diagnostics = {
       symbols = {
-        hint = g_icon.diagnostics.Hint,
-        info = g_icon.diagnostics.Information,
-        warn = g_icon.diagnostics.Warning,
-        error = g_icon.diagnostics.Error,
+        hint = G_ICON.diagnostics.Hint,
+        info = G_ICON.diagnostics.Information,
+        warn = G_ICON.diagnostics.Warning,
+        error = G_ICON.diagnostics.Error,
       },
       highlights = {
         hint = "DiagnosticSignHint",
