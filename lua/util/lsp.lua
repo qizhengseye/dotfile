@@ -1,7 +1,6 @@
 local U = {}
 local i = 0
 i = i + 1
-print(i)
 
 U.has_clients = function(buf)
   local nxt = next

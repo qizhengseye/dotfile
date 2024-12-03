@@ -2,7 +2,7 @@ local config = {
   close_if_last_window = true,
   enable_cursor_hijack = true,
   sort_case_insensitive = true,
-  popup_border_style = G_CONFIG.popup.style,
+  popup_border_style = G_CONF.popup.style,
 
   event_handlers = {
     {

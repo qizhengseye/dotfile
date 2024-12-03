@@ -1,4 +1,4 @@
-local config = {
+local M = {
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
@@ -31,11 +31,5 @@ local config = {
     Lua = {}
   }
 }
-
-local M = {}
-
-M.setup = function()
-  require('util.lsp').setup_lsp_client('lua', 'lua_ls', config)
-end
 
 return M
