@@ -1,4 +1,4 @@
-local M = {
+local config = {
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
@@ -32,15 +32,10 @@ local M = {
   }
 }
 
-local lsp_inited = false
-vim.api.nvim_create_autocmd(
-  {'FileType'},
-  {
-    pattern = 'lua',
-    callback = function(args)
-      if not lsp_inited then
-        lsp_inited = true
-      end
-    end
-  }
-)
+local M = {}
+
+M.setup = function()
+  require('util.lsp').setup_lsp_client('lua', 'lua_ls', config)
+end
+
+return M
