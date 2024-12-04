@@ -16,10 +16,10 @@ M.sections = {
     {
       "diagnostics",
       symbols = {
-        error = G_ICON.diagnostics.Error,
-        warn = G_ICON.diagnostics.Warn,
-        info = G_ICON.diagnostics.Info,
-        hint = G_ICON.diagnostics.Hint,
+        error = G_ICON.dg.Error,
+        warn = G_ICON.dg.Warn,
+        info = G_ICON.dg.Info,
+        hint = G_ICON.dg.Hint,
       },
     }
   },

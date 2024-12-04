@@ -6,9 +6,9 @@ M.diagnostic = {
   virtual_text = false,
   signs = {
       text = {
-      [svrty.INFO] = G_ICON.diagnostics.Information,
-      [svrty.WARN] = G_ICON.diagnostics.Warning,
-      [svrty.ERROR] = G_ICON.diagnostics.Error,
+      [svrty.INFO] = G_ICON.dg.Information,
+      [svrty.WARN] = G_ICON.dg.Warning,
+      [svrty.ERROR] = G_ICON.dg.Error,
     },
   },
   severity_sort = true,

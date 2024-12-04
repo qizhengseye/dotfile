@@ -10,6 +10,8 @@ local config = {
       handler = function()
         -- enter input popup with normal mode by default.
         vim.cmd("stopinsert")
+        vim.api.nvim_win_set_cursor(0, {1, 2})
+--        vim.cmd("norm! 0")
       end,
     },
     {
@@ -27,13 +29,16 @@ local config = {
     name = {
       use_git_status_colors = false,
     },
-
+    modified = {
+      symbol = "",
+      highlight = "NeoTreeModified",
+    },
     diagnostics = {
       symbols = {
-        hint = G_ICON.diagnostics.Hint,
-        info = G_ICON.diagnostics.Information,
-        warn = G_ICON.diagnostics.Warning,
-        error = G_ICON.diagnostics.Error,
+        hint = G_ICON.dg.Hint,
+        info = G_ICON.dg.Information,
+        warn = G_ICON.dg.Warning,
+        error = G_ICON.dg.Error,
       },
       highlights = {
         hint = "DiagnosticSignHint",

@@ -1,4 +1,5 @@
 local M = {}
+M.lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 M.popup = {
   style = "rounded",
 }

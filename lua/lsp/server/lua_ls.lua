@@ -6,6 +6,17 @@ local M = {
         return
       end
     end
+    
+    local library = {}
+
+    if vim.fn.stdpath('config') == require('util.root').cwd() then
+      library = {
+        vim.env.VIMRUNTIME,
+        "${3rd}/luv/library",
+        "${3rd}/busted/library",
+        vim.fn.stdpath('data') .. '/lazy',
+      }
+    end
 
     client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
       runtime = {
@@ -16,14 +27,7 @@ local M = {
       -- Make the server aware of Neovim runtime files
       workspace = {
         checkThirdParty = false,
-        library = {
-          vim.env.VIMRUNTIME,
-          -- Depending on the usage, you might want to add additional paths here.
-          "${3rd}/luv/library",
-          "${3rd}/busted/library",
-        }
-        -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
-        -- library = vim.api.nvim_get_runtime_file("", true)
+        library = library
       }
     })
   end,

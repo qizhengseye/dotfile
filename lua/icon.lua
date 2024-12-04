@@ -132,7 +132,7 @@ return {
     TriangleShortArrowRight = "",
     TriangleShortArrowUp = "",
   },
-  diagnostics = {
+  dg = {
     BoldError = "",
     Error = "",
     BoldWarning = "",
