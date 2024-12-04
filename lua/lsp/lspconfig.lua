@@ -7,4 +7,5 @@ lspconfig.util.default_config = vim.tbl_extend(
   lspconfig.util.default_config,
   {
     capabilities = vim.tbl_extend("force", def_cap, cmp_cap)
-  })
+  }
+)

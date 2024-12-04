@@ -6,7 +6,7 @@ local M = {
         return
       end
     end
-    
+
     local library = {}
 
     if vim.fn.stdpath('config') == require('util.root').cwd() then
