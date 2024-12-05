@@ -2,6 +2,7 @@ local M = {}
 local D = vim.diagnostic
 local svrty = D.severity
 
+print(G_CONF.popup.style)
 M.diagnostic = {
   virtual_text = false,
   signs = {
@@ -11,11 +12,16 @@ M.diagnostic = {
       [svrty.ERROR] = G_ICON.dg.Error,
     },
   },
+  float = {
+    border = G_CONF.popup.style,
+    format = function(dgn)
+      return string.format('@%d : %s [%s]\n    %s', dgn.lnum, dgn.message, dgn.source, dgn.code)
+    end,
+  },
   severity_sort = true,
 }
 
 D.config(M.diagnostic)
-
 --for keymaps
 
 vim.api.nvim_create_autocmd(
@@ -26,8 +32,8 @@ vim.api.nvim_create_autocmd(
 --      vim.keymap.set("n", "gD", "<cmd>lua require('goto-preview').goto_preview_declaration()<CR>", {})
 --      vim.keymap.set("n", "gp", "<cmd>lua require('goto-preview').close_all_win()<CR>", {})
 --      vim.keymap.set("n", "gr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>", {})
-      vim.keymap.set("n", "K", vim.lsp.buf.hover(), {})
-      vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename(), {})
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+      vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, {})
       vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, {})
       vim.keymap.set("n", "gl", vim.diagnostic.open_float, {})
       vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, {})
