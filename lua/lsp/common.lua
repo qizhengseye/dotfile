@@ -2,26 +2,32 @@ local M = {}
 local D = vim.diagnostic
 local svrty = D.severity
 
+local dgnSeverIcon = {
+    [svrty.INFO] = G_ICON.dg.Information,
+    [svrty.WARN] = G_ICON.dg.Warning,
+    [svrty.ERROR] = G_ICON.dg.Error,
+    [svrty.HINT] = G_ICON.dg.Hint,
+}
 print(G_CONF.popup.style)
 M.diagnostic = {
   virtual_text = false,
   signs = {
-      text = {
-      [svrty.INFO] = G_ICON.dg.Information,
-      [svrty.WARN] = G_ICON.dg.Warning,
-      [svrty.ERROR] = G_ICON.dg.Error,
-    },
+      text = dgnSeverIcon,
   },
   float = {
     border = G_CONF.popup.style,
-    format = function(dgn)
-      return string.format('@%d : %s [%s]\n    %s', dgn.lnum, dgn.message, dgn.source, dgn.code)
+    format = function(dgn ,i)
+      return string.format('%s %s [%s]', dgnSeverIcon[dgn.severity], dgn.message, dgn.source)
     end,
+    suffix = ""
   },
+
   severity_sort = true,
 }
 
 D.config(M.diagnostic)
+
+-------------
 --for keymaps
 
 vim.api.nvim_create_autocmd(
