@@ -9,6 +9,7 @@ return {
     {'<leader>fg', ":Telescope live_grep<CR>", desc = 'Telescope live grep' },
     {'<leader>fs', ":Telescope grep_string<CR>", desc = 'Telescope live grep' },
     {'<leader>fk', ":Telescope keymaps<CR>", desc = 'Telescope live grep' },
+    {'<leader>fo', ":Telescope oldfiles only_cwd=true<CR>", desc = 'Telescope live grep' },
   },
   config = function()
     require('telescope').setup(require'editor.telescope')
