@@ -1,4 +1,8 @@
-local M = {}
+local M = {
+  experimental = {
+    ghost_text = true
+  }
+}
 
 local cmp = require'cmp'
 
@@ -18,5 +22,10 @@ M.sources = cmp.config.sources({
     {
       { name = 'buffer' },
     })
+
+M.mapping = cmp.mapping.preset.insert({
+  ['<M-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+  ['<M-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+})
 
 return M
