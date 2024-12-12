@@ -16,7 +16,6 @@ U.setup_lsp_client = function(ft, lsp, config)
       callback = function(args)
         if not config.lsp_inited then
           config.lsp_inited = true
-          print(string.format('load %s', lsp))
           require'lspconfig'[lsp].setup(config)
           require'lspconfig'[lsp].launch()
         end

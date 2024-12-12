@@ -9,6 +9,11 @@ vim.keymap.set("n", "<Space>", "", { noremap = true, silent = true})
 -- window navigation
 keymap("n",     "<Tab>",    ":wincmd w<CR>",                    "move to next window")
 keymap("n",     "<S-Tab>",  ":wincmd W<CR>",                    "move to previous window")
+
+-- jumplist since tab is ctrl_i
+keymap("n",     "<m-i>",    "<c-i>",                             "jump forward")
+keymap("n",     "<m-o>",    "<c-o>",                             "jump back")
+
 -- keymap("n", "<m-w>", function()
 --   util.window_mode():activate()
 -- end, opts)

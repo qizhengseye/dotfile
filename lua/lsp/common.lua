@@ -8,7 +8,7 @@ local dgnSeverIcon = {
     [svrty.ERROR] = G_ICON.dg.Error,
     [svrty.HINT] = G_ICON.dg.Hint,
 }
-print(G_CONF.popup.style)
+
 M.diagnostic = {
   virtual_text = false,
   signs = {
@@ -17,7 +17,7 @@ M.diagnostic = {
   float = {
     border = G_CONF.popup.style,
     format = function(dgn ,i)
-      return string.format('%s %s [%s]', dgnSeverIcon[dgn.severity], dgn.message, dgn.source)
+      return string.format('(%s) %s [%s]', dgnSeverIcon[dgn.severity], dgn.message, dgn.source)
     end,
     suffix = ""
   },

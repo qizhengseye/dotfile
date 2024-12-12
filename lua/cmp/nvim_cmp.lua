@@ -28,4 +28,8 @@ M.mapping = cmp.mapping.preset.insert({
   ['<M-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 })
 
+M.formatting = {
+  expandable_indicator = false
+}
+
 return M

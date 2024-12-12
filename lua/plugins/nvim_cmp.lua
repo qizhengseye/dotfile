@@ -5,8 +5,11 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
   },
-  event = {'InsertEnter',},
+  lazy = true,
+  --event = {'InsertEnter',},
   config = function()
-    require("cmp").setup(require'cmp.nvim_cmp')
+    require("cmp").setup({
+      enable = false
+    })
   end
 }
