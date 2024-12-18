@@ -86,7 +86,7 @@ local M = {
     window = {
       border = "padded",
       -- Disable if you run into performance issues
-      treesitter_highlighting = true,
+      treesitter_highlighting = false,
     },
   },
 

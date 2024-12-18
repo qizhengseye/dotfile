@@ -11,7 +11,8 @@ return {
     {'<leader>fk', ":Telescope keymaps<CR>", desc = 'Telescope live grep' },
     {'<leader>fo', ":Telescope oldfiles only_cwd=true<CR>", desc = 'Telescope live grep' },
   },
-  config = function()
-    require('telescope').setup(require'editor.telescope')
+  opts = {},
+  config = function(_, opt)
+    require('telescope').setup(opt)
   end
 }
