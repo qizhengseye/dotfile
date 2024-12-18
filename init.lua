@@ -22,6 +22,7 @@ require("lazy").setup({
   {import = "plugins.editor"},
   {import = "plugins.lsp"},
   {import = "plugins.treesitter"},
+  { import = "plugins.cmp"},
 })
 
 require("lsp.common")

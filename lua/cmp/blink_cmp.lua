@@ -36,6 +36,7 @@ local M = {
     trigger = {
       show_on_blocked_trigger_characters = { ' ', '\n', '\t', '(', '{', "'", '"' },
       show_on_x_blocked_trigger_characters = { "'", '"', "(", "{" },
+      show_on_accept_on_trigger_character = false
     },
 
     menu = {
@@ -137,6 +138,7 @@ local M = {
           module = "blink.cmp.sources.snippets",
           max_items = 50, -- Maximum number of items to display in the menu
           score_offset = -2,
+          enabled = true,
           opts = {
             friendly_snippets = true,
             search_paths = { vim.fn.stdpath("config") .. "/snippets" },
@@ -149,8 +151,9 @@ local M = {
           name = "Buffer",
           module = "blink.cmp.sources.buffer",
           max_items = 50,
-          score_offset = -2,
+          score_offset = -1,
           min_keyword_length = 2,
+          enabled = true,
           get_bufnrs = function()
             return vim
               .iter(vim.api.nvim_list_wins())
