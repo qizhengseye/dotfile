@@ -10,8 +10,7 @@ return {
     config = function()
       local lspconfig = require'lspconfig'
       local def_cap = lspconfig.util.default_config.capabilities
-      local cmp_cap = require('blink.cmp').get_lsp_capabilities()
-      vim.print("herer")
+      local cmp_cap = require('cmp_nvim_lsp').default_capabilities()
       lspconfig.util.default_config = vim.tbl_extend( "force",
         lspconfig.util.default_config,
         {

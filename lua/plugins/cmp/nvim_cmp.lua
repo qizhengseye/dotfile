@@ -23,11 +23,7 @@ return {
             item.kind = G_ICON.kind[item.kind] .. " " .. item.kind
           end
 
-          local widths = {
-            abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 40,
-            menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
-          }
-
+          local max_width = vim.o.columns > G_CONF.ideal_width * 3 and G_CONF.ideal_width or math.floor(vim.o.columns / 3)
           item.menu = ({
             buffer = "[Buffer]",
             nvim_lsp = "[LSP]",
@@ -36,32 +32,73 @@ return {
             latex_symbols = "[LaTeX]",
           })[entry.source.name]
 
-          for key, width in pairs(widths) do
-            if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
-              item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
-            end
+          local remain_width = max_width - #item.menu - #item.kind
+          if remain_width <= 0 then
+            remain_width = 10
           end
 
+          if remain_width > #item.abbr then
+            item.abbr = item.abbr .. string.rep(' ', remain_width - #item.abbr)
+          else
+            item.abbr = string.sub(item.abbr, 0, remain_width)
+          end
           return item
         end
     },
   },
 
   config = function(_, opt)
+    vim.print(vim.o.columns)
     local cmp = require'cmp'
+    local snip = vim.snippet
 
     opt.sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
+      { name = 'nvim_lsp', trigger_charachers = {'.'},},
     },
     {
       { name = 'buffer' },
     })
 
-    opt.mapping = cmp.mapping.preset.insert({
-      ['<M-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-      ['<M-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-    })
-    require('cmp').setup(opt)
+    opt.mapping = {
+      ["<C-p>"] = cmp.mapping.scroll_docs(-4),
+      ["<C-n>"] = cmp.mapping.scroll_docs(4),
+      ["<CR>"] = cmp.mapping({
+        i = function(fallback)
+          if cmp.visible() and cmp.get_active_entry() then
+            cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+          else
+            fallback()
+          end
+        end,
+        s = cmp.mapping.confirm({ select = true }),
+      }, {"i"}),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          if #cmp.get_entries() == 1 then
+            cmp.confirm({ select = true })
+          else
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+          end
+        elseif snip.active({direction = 1}) then
+          snip.jump(1)
+          --elseif util.has_words_before() then
+          --  cmp.complete()
+        else
+          fallback()
+        end
+      end, { "i", "c" }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+        elseif snip.active({direction = -1}) then
+          snip.jump(-1)
+        else
+          fallback()
+        end
+      end, { "i", "c" }),
+    }
+    cmp.setup(opt)
+    
   end
 
 }
