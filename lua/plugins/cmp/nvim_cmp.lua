@@ -65,13 +65,21 @@ return {
       ["<CR>"] = cmp.mapping({
         i = function(fallback)
           if cmp.visible() and cmp.get_active_entry() then
-            cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+            if vim.bo.filetype == 'cpp' then
+              local item = cmp.get_active_entry().completion_item
+              local lable = cmp.get_selected_entry().completion_item.label
+              if lable == ' private' or lable == ' public' then
+                item.textEdit.range.start.character = 0
+              end
+            end
+            cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false })
           else
             fallback()
           end
         end,
         s = cmp.mapping.confirm({ select = true }),
-      }, {"i"}),
+        c = cmp.mapping.confirm({ select = true }),
+      }),
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           if #cmp.get_entries() == 1 then
