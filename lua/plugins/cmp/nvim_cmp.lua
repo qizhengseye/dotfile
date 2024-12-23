@@ -66,10 +66,12 @@ return {
         i = function(fallback)
           if cmp.visible() and cmp.get_active_entry() then
             if vim.bo.filetype == 'cpp' then
-              local item = cmp.get_active_entry().completion_item
-              local lable = cmp.get_selected_entry().completion_item.label
+              local item = cmp.get_selected_entry().completion_item
+              local lable = item.label
               if lable == ' private' or lable == ' public' then
-                item.textEdit.range.start.character = 0
+                local indent = vim.fn.indent('.')
+                local width = vim.bo.shiftwidth
+                item.textEdit.range.start.character = indent > width and indent - width or 0
               end
             end
             cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false })
@@ -85,7 +87,16 @@ return {
         i = function(fallback)
           if cmp.visible() then
             if #cmp.get_entries() == 1 then
-              cmp.confirm({ select = true })
+              if vim.bo.filetype == 'cpp' then
+                  local item = cmp.get_entries()[1].completion_item
+                  local lable = item.label
+                if lable == ' private' or lable == ' public' then
+                  local indent = vim.fn.indent('.')
+                  local width = vim.bo.shiftwidth
+                  item.textEdit.range.start.character = indent > width and indent - width or 0
+                end
+              end
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
             else
               cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
             end
