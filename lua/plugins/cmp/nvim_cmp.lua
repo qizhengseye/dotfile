@@ -80,21 +80,37 @@ return {
         s = cmp.mapping.confirm({ select = true }),
         c = cmp.mapping.confirm({ select = true }),
       }),
-      ["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          if #cmp.get_entries() == 1 then
-            cmp.confirm({ select = true })
+      ["<Tab>"] = cmp.mapping(
+      {
+        i = function(fallback)
+          if cmp.visible() then
+            if #cmp.get_entries() == 1 then
+              cmp.confirm({ select = true })
+            else
+              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            end
+          elseif snip.active({direction = 1}) then
+            snip.jump(1)
+            --elseif util.has_words_before() then
+            --  cmp.complete()
           else
-            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            fallback()
           end
-        elseif snip.active({direction = 1}) then
-          snip.jump(1)
-          --elseif util.has_words_before() then
-          --  cmp.complete()
-        else
-          fallback()
+        end,
+
+        c = function (fallback)
+          if cmp.visible() then
+            if #cmp.get_entries() == 1 then
+              cmp.confirm({ select = true })
+            else
+              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            end
+          else
+            cmp.complete()
+          end
         end
-      end, { "i", "c" }),
+      }
+      ),
       ["<S-Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
