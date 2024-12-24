@@ -1,7 +1,7 @@
 return {
   "iguanacucumber/magazine.nvim",
   name = "cmp-nvim", -- Otherwise highlighting gets messed up
-  event = {'InsertEnter',},
+  event = {'InsertEnter', 'CmdlineEnter'},
   dependencies = {
     { "iguanacucumber/mag-nvim-lsp" },
     { "iguanacucumber/mag-buffer" },
@@ -32,7 +32,9 @@ return {
             latex_symbols = "[LaTeX]",
           })[entry.source.name]
 
-          local remain_width = max_width - #item.menu - #item.kind
+          local remain_width = max_width
+            - (item.menu and #item.menu or 0)
+            - (item.kind and #item.kind or 0)
           if remain_width <= 0 then
             remain_width = 10
           end
@@ -45,18 +47,18 @@ return {
           return item
         end
     },
+    performance = {
+      max_view_entries = G_CONF.cmp_item_cnt
+    }
   },
 
   config = function(_, opt)
-    vim.print(vim.o.columns)
     local cmp = require'cmp'
-    local snip = vim.snippet
+    local cmp_util = require'util.completion'
 
     opt.sources = cmp.config.sources({
-      { name = 'nvim_lsp', trigger_charachers = {'.'},},
-    },
-    {
-      { name = 'buffer' },
+      { name = 'nvim_lsp', max_item_count = 50,},
+      { name = 'buffer', max_item_count = 20 },
     })
 
     opt.mapping = {
@@ -80,60 +82,31 @@ return {
           end
         end,
         s = cmp.mapping.confirm({ select = true }),
-        c = cmp.mapping.confirm({ select = true }),
       }),
       ["<Tab>"] = cmp.mapping(
-      {
-        i = function(fallback)
-          if cmp.visible() then
-            if #cmp.get_entries() == 1 then
-              if vim.bo.filetype == 'cpp' then
-                  local item = cmp.get_entries()[1].completion_item
-                  local lable = item.label
-                if lable == ' private' or lable == ' public' then
-                  local indent = vim.fn.indent('.')
-                  local width = vim.bo.shiftwidth
-                  item.textEdit.range.start.character = indent > width and indent - width or 0
-                end
-              end
-              cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
-            else
-              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-            end
-          elseif snip.active({direction = 1}) then
-            snip.jump(1)
-            --elseif util.has_words_before() then
-            --  cmp.complete()
-          else
-            fallback()
-          end
-        end,
-
-        c = function (fallback)
-          if cmp.visible() then
-            if #cmp.get_entries() == 1 then
-              cmp.confirm({ select = true })
-            else
-              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-            end
-          else
-            cmp.complete()
-          end
-        end
-      }
+        {
+          i = cmp_util.tab_i,
+          c = cmp_util.tab_c,
+        }
       ),
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-        elseif snip.active({direction = -1}) then
-          snip.jump(-1)
-        else
-          fallback()
-        end
-      end, { "i", "c" }),
+      ["<S-Tab>"] = cmp.mapping(
+        {
+          i = cmp_util.stab_i,
+          c = cmp_util.stab_c,
+        }
+      ),
     }
     cmp.setup(opt)
-    
+    cmp.setup.cmdline(':', {
+      sources = cmp.config.sources({
+        { name = 'cmdline' },
+        { name = 'path' }
+      }),
+      matching = { disallow_symbol_nonprefix_matching = false },
+      completion = {
+        autocomplete = false
+      }
+    })
   end
 
 }
