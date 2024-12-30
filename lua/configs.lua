@@ -1,3 +1,6 @@
+vim.cmd("autocmd FileType norg setlocal shiftwidth=2 softtabstop=2 wrap conceallevel=2")
+vim.api.nvim_create_user_command("goconf", ":e $MYVIMRC | :cd %:p:h", {})
+
 local M = {}
 M.lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 M.ideal_width = 55
